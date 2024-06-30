@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { GlobalContext, StateType } from "../context/GlobalState";
+import { AppContext, GlobalContext } from "../context/GlobalState";
 
 const Hints = () => {
-  const { selectedWord, showHints, wrongLetters, toggleHints } = useContext(GlobalContext) as StateType;
+  const { selectedWord, showHints, wrongLetters, toggleHints } = useContext(GlobalContext) as AppContext;
 
   return (
     <>

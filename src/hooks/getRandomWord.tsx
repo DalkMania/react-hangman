@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useContext, useEffect, useMemo } from "react";
 import { GlobalContext, AppContext } from "../context/GlobalState";
 import { generate } from "random-words";

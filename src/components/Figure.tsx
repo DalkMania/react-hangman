@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { GlobalContext } from "../context/GlobalState";
+import { AppContext, GlobalContext } from "../context/GlobalState";
 
 const Figure = () => {
-  const { wrongLetters } = useContext(GlobalContext);
+  const { wrongLetters } = useContext(GlobalContext) as AppContext;
   const errors = wrongLetters.length;
 
   return (
