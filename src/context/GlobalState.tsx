@@ -1,6 +1,6 @@
 import { createContext, useReducer, useCallback } from "react";
 import AppReducer from "./AppReducer";
-import { DictionaryResponse } from "../hooks/useDictionary";
+import { DictionaryResponse } from "../helpers";
 
 export type AppState = {
   playable: boolean;

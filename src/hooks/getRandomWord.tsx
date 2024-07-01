@@ -1,19 +1,29 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useContext, useEffect, useMemo } from "react";
+import { useCallback, useContext, useEffect, useMemo } from "react";
 import { GlobalContext, AppContext } from "../context/GlobalState";
 import { generate } from "random-words";
-import { formatDictionaryResponse, useDictionary } from "../hooks/useDictionary";
+import { formatDictionaryResponse } from "../helpers";
 
 const GetRandomWord = () => {
   const { setSelectedWord, playable } = useContext(GlobalContext) as AppContext;
-  const selectedWord = useMemo(() => generate(), [!playable]);
-  const response = useDictionary(selectedWord as string);
+  const foundWord = useMemo(() => {
+    if (!playable) {
+      return generate();
+    }
+  }, [playable]);
+
+  const checkWordinDictionary = useCallback(async () => {
+    const url = `https://api.dictionaryapi.dev/api/v2/entries/en/${foundWord}`;
+    const data = await fetch(url);
+    const json = await data.json();
+    const formatted = formatDictionaryResponse(json);
+    setSelectedWord(formatted);
+  }, [foundWord, setSelectedWord]);
 
   useEffect(() => {
-    if (!response.isLoading && response.data) {
-      setSelectedWord(formatDictionaryResponse(response));
+    if (!playable) {
+      checkWordinDictionary();
     }
-  }, [response.data]);
+  }, [playable, checkWordinDictionary]);
 };
 
 export default GetRandomWord;
