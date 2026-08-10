@@ -12,8 +12,18 @@ const GetRandomWord = () => {
   }, [playable]);
 
   const checkWordinDictionary = useCallback(async () => {
-    const url = `https://api.dictionaryapi.dev/api/v2/entries/en/${foundWord}`;
+    const apiBase = import.meta.env.DEV || import.meta.env.MODE === "preview"
+      ? "/dictionary-api"
+      : "/api/dictionary";
+    const url = import.meta.env.DEV || import.meta.env.MODE === "preview"
+      ? `${apiBase}/api/v2/entries/en/${encodeURIComponent(String(foundWord))}`
+      : `${apiBase}?word=${encodeURIComponent(String(foundWord))}`;
     const data = await fetch(url);
+
+    if (!data.ok) {
+      throw new Error(`Dictionary lookup failed: ${data.status}`);
+    }
+
     const json = await data.json();
     const formatted = formatDictionaryResponse(json);
     setSelectedWord(formatted);

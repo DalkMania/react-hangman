@@ -1,0 +1,7 @@
+[build]
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/dictionary"
+  to = "/.netlify/functions/dictionary"
+  status = 200
